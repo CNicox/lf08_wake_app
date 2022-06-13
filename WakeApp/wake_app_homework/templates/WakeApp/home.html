@@ -7,6 +7,11 @@
 
 {% block content %}
 
-<h1>test</h1>
+          <form method="post" action="{% url 'wake_app_homework:add-route'  %}">
+              {% csrf_token %}
+              {{ route_form.as_p }}
+              <input type="submit" value="Add route">
+
+          </form>
 
 {% endblock %}
