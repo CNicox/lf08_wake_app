@@ -7,10 +7,7 @@ from .forms import *
 # Create your views here.
 
 
-#def home(request):
-#    numbers =[1,2,3,4,5]
-#    args = {'numbers': numbers}
-#    return render(request, 'WakeApp/home.html', args)
+
 
 
 class IndexView(ListView):
