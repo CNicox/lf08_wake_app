@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import ListView
 import datetime
 from .models import *
@@ -13,13 +14,11 @@ from .forms import *
 class IndexView(ListView):
     template_name = 'WakeApp/home.html'
     model = Route
-    context_object_name = 'posts'
+    context_object_name = 'routes'
     extra_context = {
         'route_form': RouteForm(),
     }
-#datetime_object = datetime.datetime.strptime(last_login_confluence, ' %b %d, %Y %H:%M')
-#last_login_confluence = datetime_object.strftime(' %d/%b/%y %-I:%M %p')
-#['destination', 'home_address', 'route_length', 'morning_routine', 'classes_start', 'wake_up_time']
+
 def add_route(request):
     f = RouteForm(request.POST)
     if f.is_valid():
@@ -42,5 +41,5 @@ def add_route(request):
     else:
         print(f.errors)
     new_route.save()
-    return render(request, "WakeApp/home.html")
-    #return HttpResponseRedirect(reverse('imdb:movie-detail', kwargs={'pk':pk}))
+    #return render(request, "WakeApp/home.html")
+    return HttpResponseRedirect(reverse('wake_app_homework:index'))
