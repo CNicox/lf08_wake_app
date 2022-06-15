@@ -1,33 +1,67 @@
 {% extends 'based.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block head %}
+    <style>
+    {
+        box-sizing: border-box;
+    }
+    /* Set additional styling options for the columns*/
+    .column {
+    float: left;
+    width: 50%;
+    }
 
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
 {% endblock %}
 
 {% block content %}
+<div class="row">
 
+<div class="column">
           <form method="post" action="{% url 'wake_app_homework:add-route'  %}">
               {% csrf_token %}
-              {{ route_form.as_p }}
+              {{ route_form|crispy }}
               <input type="submit" value="Add route">
           </form>
-
-
     <h3>{{ route }}</h3>
+</div>
 
-
-
-
-      <select name="routes" id="route">
+<div class="column">
+      <select name="routes" id="routeSelect">
     {% for route in routes %}
-        <option value="route">{{ route }}</option>
+        <option value={{ route.id }}>{{ route }}</option>
         <div id="welcomeDiv"  style="display:none;" class="answer_list" > {{ route }}</div>
     {% endfor %}
       </select>
-    <input type="button" name="answer" value="Show Div" onclick="showDiv()" />
-{% endblock %}
 
-function showDiv() {
-   document.getElementById('welcomeDiv').style.display = "block";
-}
+    {% for route in routes %}
+    <div id={{ route.id }} style="display:none;">
+        <p>You should wake up at {{ route.wake_up_time }} o'clock</p>
+    </div>
+    {% endfor %}
+
+    <script type="application/javascript">
+        var prevValue;
+
+        function showDiv() {
+            if (prevValue !== "undefined" && document.getElementById(prevValue)) {
+                document.getElementById(prevValue).style.display = "none";
+            }
+            var routeSelect = document.getElementById('routeSelect').value;
+            prevValue = routeSelect;
+            document.getElementById(routeSelect).style.display = "block";
+        }
+    </script>
+    <br>
+    <br>
+    <input type="button" name="answer" value="Show Wake Up Time" onclick="showDiv()" />
+</div>
+
+    </div>
+{% endblock %}
