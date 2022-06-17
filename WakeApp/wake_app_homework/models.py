@@ -1,7 +1,6 @@
 from django.db import models
 
-# Create your models here.
-# admin admin
+
 
 class Route(models.Model):
     destination = models.CharField(max_length=512)

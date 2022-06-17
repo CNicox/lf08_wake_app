@@ -1,5 +1,4 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView
 import datetime
@@ -28,6 +27,9 @@ def add_route(request):
         morning_routine_time = datetime.timedelta(hours=f.cleaned_data['morning_routine'].hour, minutes=f.cleaned_data['morning_routine'].minute)
         route_time_total = route_time + morning_routine_time
         time_to_wake_up = datetime.timedelta(hours=f.cleaned_data['classes_start'].hour, minutes=f.cleaned_data['classes_start'].minute) - route_time_total
+        if route_time_total > time_to_wake_up:
+            #show error here
+            return HttpResponseRedirect(reverse('wake_app_homework:index'))
         print(type(time_to_wake_up))
         new_route = Route(
             destination = f.cleaned_data['destination'],
